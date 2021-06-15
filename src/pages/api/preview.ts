@@ -4,8 +4,8 @@ import Prismic from '@prismicio/client';
 
 import { Document } from '@prismicio/client/types/documents';
 
-export const apiEndpoint = process.env.PRISMIC_API_ENDPOINT;
-export const accessToken = process.env.PRISMIC_ACCESS_TOKENT;
+const apiEndpoint = process.env.PRISMIC_API_ENDPOINT;
+const accessToken = process.env.PRISMIC_ACCESS_TOKEN;
 
 function linkResolver(doc: Document): string {
   if (doc.type === 'posts') {
@@ -16,6 +16,7 @@ function linkResolver(doc: Document): string {
 
 // Client method to query from the Prismic repo
 const Client = (req = null) =>
+  // eslint-disable-next-line no-use-before-define
   Prismic.client(apiEndpoint, createClientOptions(req, accessToken));
 
 const createClientOptions = (req = null, prismicAccessToken = null) => {
