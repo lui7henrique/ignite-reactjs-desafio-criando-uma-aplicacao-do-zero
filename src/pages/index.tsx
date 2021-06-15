@@ -55,7 +55,7 @@ export default function Home({
   const [currentPage, setCurrentPage] = useState(1);
 
   async function handleNextPage(): Promise<void> {
-    if (currentPage === 1 && nextPage === null) {
+    if (currentPage !== 1 && nextPage === null) {
       return;
     }
 
@@ -135,9 +135,13 @@ export default function Home({
 
 export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
   const prismic = getPrismicClient();
+
   const postsResponse = await prismic.query(
     [Prismic.Predicates.at('document.type', 'posts')],
-    { pageSize: 1 }
+    {
+      pageSize: 3,
+      orderings: '[document.last_publication_date desc]',
+    }
   );
 
   const posts = postsResponse.results.map(post => {
